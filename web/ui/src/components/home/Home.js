@@ -15,8 +15,8 @@ const Home = () => (
                 <div className="jb-row jb-top">
                     <section className="jb-main jb-content">
                         <div className="jb-about">
-                            I thought it would be cool to put GitHub Jobs on a map. I also wanted to try out React and put the project on open source. 
-                            I hope you enjoy the site. I enjoyed putting it together!<span role="img" aria-label="smilers">🙂</span> Unfortunately <a href="https://jobs.github.com/">GitHub Jobs</a> was sunset in August 2021, so I've replaced the API with
+                            I thought it would be cool to put GitHub Jobs on a map. I hope you enjoy the site. I enjoyed putting it together!
+                            <span role="img" aria-label="smilers"> 🙂 </span> Unfortunately <a href="https://jobs.github.com/">GitHub Jobs</a> was sunset in August 2021, so I've replaced the API with
                             filler data.
                             <br/><br/><br/><br/>
                         </div>
@@ -45,8 +45,7 @@ const Home = () => (
                      <a href="https://leafletjs.com/"> Leaflet</a>.
                 </Icon>
                 <Icon type="github">
-                    Showing the best jobs in tech found at GitHub 
-                    Random data composed from <a href="https://random-data-api.com/documentation"> here </a> and <a href="https://corpora-api.glitch.me/"> here. </a>
+                    The best jobs. Random data composed from <a href="https://random-data-api.com/documentation"> here </a> and <a href="https://corpora-api.glitch.me/"> here. </a>
                 </Icon>
             </Banner>
             <Fill screen={jpg2} photographer="rawpixel" />
