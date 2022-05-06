@@ -40,8 +40,8 @@ class Header extends React.Component {
                             <i className="fa fa-bars fa-2x"></i>
                         </button>
                         <nav className={`jb-nav jb-row ${this.state.navVisible}`}>
-                            <Link to="/" className="jb-btn">Home</Link>
-                            <Link to="/jobs" className="jb-btn">Jobs</Link>
+                            <Link to="/" className="jb-btn">Jobs</Link>
+                            <Link to="/about" className="jb-btn">About</Link>
                         </nav>
                     </div>
                 </div>

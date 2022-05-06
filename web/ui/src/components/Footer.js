@@ -6,7 +6,7 @@ const Footer = (props) => {
         <footer>
             <div className="jb-content jb-center jb-row">
                 <div>
-                    <Link to="/about"> About </Link> 
+                    <Link to="/"> Jobs </Link> 
                 </div>
                 <div>
                     <i className="fa fa-copyright"></i> Job Board
