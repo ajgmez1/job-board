@@ -37,8 +37,8 @@ class App extends Component {
             error: null
         });
 
-        if (history.location.pathname !== '/jobs') {
-            history.push('/jobs');
+        if (history.location.pathname !== '/') {
+            history.push('/');
         }
         
         this.search(searchVal);
