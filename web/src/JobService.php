@@ -40,11 +40,11 @@ class JobService {
         $jobs = $this->db->select();
 
         if (isset($_GET['search'])) {
-            $jobs = array_filter($jobs, function($item) {
+            $jobs = array_values(array_filter($jobs, function($item) {
                 return str_contains(strtolower($item['title']), strtolower($_GET['search']))
                     || str_contains(strtolower($item['id']), strtolower($_GET['search']))
                     || str_contains(strtolower($item['location']), strtolower($_GET['search']));
-            });
+            }));
         }
 
         return $this->setResponse(true, $jobs);
