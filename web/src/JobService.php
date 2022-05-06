@@ -39,7 +39,7 @@ class JobService {
     private function getJobs() {
         $jobs = $this->db->select();
 
-        if ($_GET['search']) {
+        if (isset($_GET['search'])) {
             $jobs = array_filter($jobs, function($item) {
                 return str_contains(strtolower($item['title']), strtolower($_GET['search']))
                     || str_contains(strtolower($item['id']), strtolower($_GET['search']))
