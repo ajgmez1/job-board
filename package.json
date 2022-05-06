@@ -4,7 +4,9 @@
   "description": "Job viewing on a map.",
   "main": "index.js",
   "scripts": {
-    "heroku-postbuild": "gulp"
+    "heroku-postbuild": "gulp",
+    "watch": "gulp watch",
+    "gulp": "gulp"
   },
   "repository": {
     "type": "git",
