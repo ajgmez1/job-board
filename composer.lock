@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "432beb0413ddb7cdeaff7ecb804a597a",
+    "content-hash": "8da835888f69b3aba52b98a602d6fdee",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -313,6 +313,62 @@
                 "source": "https://github.com/slimphp/Slim/tree/3.x"
             },
             "time": "2016-03-10T21:37:40+00:00"
+        },
+        {
+            "name": "tcdent/php-restclient",
+            "version": "0.1.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/tcdent/php-restclient.git",
+                "reference": "7c944e34cd083cd4e74cd95ed9366580c4b1875c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/tcdent/php-restclient/zipball/7c944e34cd083cd4e74cd95ed9366580c4b1875c",
+                "reference": "7c944e34cd083cd4e74cd95ed9366580c4b1875c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "ext-json": "*",
+                "php": ">=7.2"
+            },
+            "require-dev": {
+                "php": ">=8.0",
+                "phpunit/phpunit": ">=9.5"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "restclient.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Travis Dent",
+                    "email": "tcdent@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A generic REST API client for PHP",
+            "homepage": "http://github.com/tcdent/php-restclient",
+            "keywords": [
+                "api",
+                "client",
+                "curl",
+                "json",
+                "rest",
+                "xml"
+            ],
+            "support": {
+                "issues": "http://github.com/tcdent/php-restclient/issues",
+                "source": "https://github.com/tcdent/php-restclient/tree/0.1.8"
+            },
+            "time": "2022-04-09T04:23:24+00:00"
         }
     ],
     "packages-dev": [

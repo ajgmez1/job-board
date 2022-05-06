@@ -4,7 +4,7 @@
   "description": "Job viewing on a map.",
   "main": "index.js",
   "scripts": {
-    "heroku-postbuild": "gulp",
+    "heroku-postbuild": "php web/src/scripts/insert.php && gulp",
     "watch": "gulp watch",
     "gulp": "gulp"
   },
