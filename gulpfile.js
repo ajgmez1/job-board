@@ -1,11 +1,11 @@
 var gulp = require('gulp'),
-    install = require('gulp-install'),
     exec = require('gulp-exec'),
     replace = require('gulp-replace');
 
 gulp.task('install', () => {
     return gulp.src(['web/ui/package.json'])
-        .pipe(install());
+        .pipe(exec('cd web/ui && npm install'))
+        .pipe(exec.reporter());
 });
 
 gulp.task('build', () => {
