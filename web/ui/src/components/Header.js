@@ -23,21 +23,17 @@ class Header extends React.Component {
                         <h1 className="jb-title">Job Board</h1>
                     </Link>
                     <div className="jb-nav-wrapper">
-                        <Routes>
-                            <Route render={({ history }) => (
-                                <form action="." onSubmit={(e) => this.props.onSearch(e, this.state.value, history)}>
-                                    <div>
-                                        <i className="fa fa-search"></i>
-                                        <input className="jb-search" 
-                                                value={this.state.value}
-                                                placeholder="Search jobs"
-                                                onChange={this.handleChange}
-                                                disabled={this.props.searching} />
-                                                name="search"
-                                    </div>
-                                </form>
-                            )} />
-                        </Routes>
+                        <form action="." onSubmit={(e) => this.props.onSearch(e, this.state.value)}>
+                            <div>
+                                <i className="fa fa-search"></i>
+                                <input className="jb-search" 
+                                        value={this.state.value}
+                                        placeholder="Search jobs"
+                                        onChange={this.handleChange}
+                                        disabled={this.props.searching} 
+                                        name="search" />
+                            </div>
+                        </form>
                         <button onClick={this.handleClick} className="jb-btn">
                             <i className="fa fa-bars fa-2x"></i>
                         </button>

@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import {
     BrowserRouter as Router,
     Route,
-    Routes
-} from 'react-router-dom'
+    Routes,
+    useNavigate
+} from 'react-router-dom';
 
 import 'font-awesome/css/font-awesome.min.css';
 import '../styles/App.css';
@@ -29,8 +30,9 @@ class App extends Component {
         this.search();
     }
 
-    onSearch = (e, searchVal = '', history) => {
+    onSearch = (e, searchVal = '') => {
         if (e) e.preventDefault();
+        // const navigate  = useNavigate();
 
         this.setState({
             searching: true,
@@ -38,9 +40,9 @@ class App extends Component {
             error: null
         });
 
-        if (history.location.pathname !== '/') {
-            history.push('/');
-        }
+        // if (navigate.location.pathname !== '/') {
+        //     navigate.push('/');
+        // }
         
         this.search(searchVal);
     }
@@ -80,28 +82,25 @@ class App extends Component {
     render() {
         return (
             <Router>
-                <React.Fragment>
-                    <Header onSearch={this.onSearch} searching={this.state.searching} />
-                    <Routes>
-                        <Route exact path="/" render={() => 
-                            <Map searching={this.state.searching}
-                                setStateBounds={this.setBounds} 
-                                bounds={this.state.bounds}
-                                jobs={this.state.jobs} 
-                                error={this.state.error} />
-                        }/>
-                        
-                        <Route path="/about" component={Home} />
+                <Header onSearch={this.onSearch} searching={this.state.searching} />
+                <Routes>
+                    <Route exact path="/" element={ 
+                        <Map searching={this.state.searching}
+                            setStateBounds={this.setBounds} 
+                            bounds={this.state.bounds}
+                            jobs={this.state.jobs} 
+                            error={this.state.error} />
+                    }/>
+                    
+                    <Route path="/about" element={<Home/>} />
 
-                        <Route path="/job/:jobId" render={({match}) => 
-                            <Detail 
-                                searching={this.state.searching} 
-                                job={this.state.jobs.find((j) => j.id === +match.params.jobId)} 
-                            />
-                        }/>
-                    </Routes>
-
-                </React.Fragment>
+                    <Route path="/job/:jobId" element={
+                        <Detail 
+                            searching={this.state.searching} 
+                            jobs={this.state.jobs}
+                        />
+                    }/>
+                </Routes>
             </Router>
         );
     }
