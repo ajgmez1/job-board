@@ -17,7 +17,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
-    "sass": "sass --watch src/styles/app.scss"
+    "sass": "sass --watch src/styles/app.scss src/styles/app.css"
   },
   "homepage": "http://localhost/ui/build",
   "browserslist": {

@@ -1,6 +1,6 @@
-$main-color: #f5d02a;
-$off-color: #353223;
-$gray-color: #444;
+$main-color: #002640;
+$off-color: #7F7F7F;
+$gray-color: black;
 $white-color: #eee;
 
 $padding: 0.5em;
@@ -59,7 +59,23 @@ a, .leaflet-container a {
 .jb-content {
     max-width: $media-xlg;
     font-size: 0.9em;
+    padding: 3em 0;
 }
+
+main section.jb-main.jb-detail {
+    h1, h4, h5, div.jb-html {
+        background-color: $main-color;
+        padding: 20px;
+        a {
+            color: $off-color;
+            padding: 0;
+        }
+    }
+    div.jb-html {
+        min-height: 50vh;
+    }
+}
+
 
 .jb-btn {
     color: $off-color;
@@ -73,7 +89,6 @@ header {
     width: 100%;
     background-color: $main-color;
     color: $off-color;
-    border-bottom: 2px solid $off-color;
     
     .jb-row {
         margin: 0 auto;
@@ -144,7 +159,7 @@ header {
                     flex: 0 0 100%;
                     text-align: center;
                     &:hover {
-                        color: #756c45;
+                        color: $white-color;
                     }    
                     &:first-of-type {
                         border-bottom: none;
@@ -277,7 +292,7 @@ main {
         table {
             width: 100%;
             color: $white-color;
-            background-color: $gray-color;
+            background-color: $main-color;
             border-collapse: collapse;
             text-align: left;
             th, td {
@@ -313,7 +328,7 @@ main {
         }
         .leaflet-popup-content-wrapper, .leaflet-popup-tip {
             color: $white-color;
-            background: $gray-color;
+            background: $main-color;
             .leaflet-popup-content {
                 padding: $padding;
                 p {
@@ -321,7 +336,7 @@ main {
                 }
             }
             a {
-                color: $main-color;
+                color: $off-color;
                 &:hover {
                     color: $white-color;
                 }
@@ -331,26 +346,24 @@ main {
             color: $main-color;
             text-shadow: 0px 0px 15px $gray-color;
         }
-        .marker-cluster-small, .marker-cluster-large {
-            background-color: rgba(241, 211, 87, 0.6);
+        .marker-cluster-small, .marker-cluster-large, .marker-cluster-medium {
+            background-color: rgba(0, 38, 64, 0.6);
             div {
-                background-color: rgba(240, 194, 12, 0.6);
+                background-color: rgba(0, 38, 64, 1);
+                color: $white-color;
             }
         } 
     }
     section.jb-main {
         padding: $padding;
         margin: 0 auto;
-        h1, h4, h5, div.jb-html, .jb-about p {
-            font-size: 1.2em;
-            padding: $padding;
-            background-color: $gray-color;
+        h1, h4, h5, div.jb-html, .jb-about {
+            padding: 3em 0 0;
         }
     }
 }
 
 footer {
-    border-top: 2px solid black;
     padding: 2em;
     width: 100%;
     div {

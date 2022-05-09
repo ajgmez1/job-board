@@ -8,8 +8,9 @@ const JobsDetail = (props) => {
     return (
         <main className="jb-fill jb-row">
             {job ? 
-                <section className="jb-main jb-content">
+                <section className="jb-main jb-content jb-detail">
                     <h1><a href={job.url}>{job.title}</a></h1>
+                    <br/>
                     <h4>{job.company} - {job.location} </h4>
                     <br/>
                     <h5> Posted: {job.created_at} - {job.type} </h5>
