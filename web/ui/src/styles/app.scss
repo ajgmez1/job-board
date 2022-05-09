@@ -1,6 +1,6 @@
 $main-color: #002640;
 $off-color: #7F7F7F;
-$gray-color: black;
+$gray-color: #adadad;
 $white-color: #eee;
 
 $padding: 0.5em;
@@ -62,20 +62,6 @@ a, .leaflet-container a {
     padding: 3em 0;
 }
 
-main section.jb-main.jb-detail {
-    h1, h4, h5, div.jb-html {
-        background-color: $main-color;
-        padding: 20px;
-        a {
-            color: $off-color;
-            padding: 0;
-        }
-    }
-    div.jb-html {
-        min-height: 50vh;
-    }
-}
-
 
 .jb-btn {
     color: $off-color;
@@ -99,7 +85,7 @@ header {
             display: flex;
             padding: $padding;
             align-items: center;
-            color: $off-color;
+            color: $white-color;
             .fa-5x {
                 font-size: 2em;
             }
@@ -124,7 +110,7 @@ header {
                 align-items: center;
                 div { 
                     color: $gray-color;
-                    background: rgba(255, 239, 167, 0.5);
+                    background: $white-color;
                     padding: 0.25em;
                     &:focus-within {
                         outline: -webkit-focus-ring-color auto 5px;
@@ -158,8 +144,9 @@ header {
                 a {
                     flex: 0 0 100%;
                     text-align: center;
+                    color: $white-color;
                     &:hover {
-                        color: $white-color;
+                        color: $off-color;
                     }    
                     &:first-of-type {
                         border-bottom: none;
@@ -178,7 +165,7 @@ main {
         // position: relative;
     }
     .jb-banner {
-        border: 2px solid black;
+        color: $main-color;
         border-right: none;
         border-left: none;
         background-color: $gray-color;
@@ -333,12 +320,13 @@ main {
                 padding: $padding;
                 p {
                     margin: 0;
+                    color: $gray-color;
                 }
             }
             a {
-                color: $off-color;
+                color: $white-color;
                 &:hover {
-                    color: $white-color;
+                    color: $off-color;
                 }
             }
         }
@@ -359,6 +347,23 @@ main {
         margin: 0 auto;
         h1, h4, h5, div.jb-html, .jb-about {
             padding: 3em 0 0;
+        }
+    }
+    section.jb-main.jb-detail {
+        h1, h4, h5, div.jb-html {
+            background-color: $main-color;
+            padding: 20px;
+            color: $gray-color;
+            a {
+                color: $white-color;
+                padding: 0;
+                &:hover {
+                    color: $off-color;
+                }
+            }
+        }
+        div.jb-html {
+            min-height: 50vh;
         }
     }
 }
