@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import {
     BrowserRouter as Router,
-    Route
+    Route,
+    Routes
 } from 'react-router-dom'
 
 import 'font-awesome/css/font-awesome.min.css';
@@ -81,23 +82,24 @@ class App extends Component {
             <Router>
                 <React.Fragment>
                     <Header onSearch={this.onSearch} searching={this.state.searching} />
-                    
-                    <Route exact path="/" render={() => 
-                        <Map searching={this.state.searching}
-                            setStateBounds={this.setBounds} 
-                            bounds={this.state.bounds}
-                            jobs={this.state.jobs} 
-                            error={this.state.error} />
-                    }/>
-                    
-                    <Route path="/about" component={Home} />
+                    <Routes>
+                        <Route exact path="/" render={() => 
+                            <Map searching={this.state.searching}
+                                setStateBounds={this.setBounds} 
+                                bounds={this.state.bounds}
+                                jobs={this.state.jobs} 
+                                error={this.state.error} />
+                        }/>
+                        
+                        <Route path="/about" component={Home} />
 
-                    <Route path="/job/:jobId" render={({match}) => 
-                        <Detail 
-                            searching={this.state.searching} 
-                            job={this.state.jobs.find((j) => j.id === +match.params.jobId)} 
-                        />
-                    }/>
+                        <Route path="/job/:jobId" render={({match}) => 
+                            <Detail 
+                                searching={this.state.searching} 
+                                job={this.state.jobs.find((j) => j.id === +match.params.jobId)} 
+                            />
+                        }/>
+                    </Routes>
 
                 </React.Fragment>
             </Router>
