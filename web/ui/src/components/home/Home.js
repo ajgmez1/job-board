@@ -2,11 +2,7 @@ import React from 'react';
 
 import Banner from './Banner';
 import Icon from './Icon';
-import Fill from './Fill';
 import Footer from '../Footer';
-
-import jpg1 from '../../images/nathan-dumlao-609929-unsplash.jpg';
-import jpg2 from '../../images/rawpixel-679092-unsplash.jpg';
 
 const Home = () => (
     <React.Fragment>
@@ -23,9 +19,8 @@ const Home = () => (
                 <Icon type="github">
                     The best jobs. Random data composed from <a href="https://random-data-api.com/documentation"> here </a> and <a href="https://corpora-api.glitch.me/"> here. </a>
                 </Icon>
+
                 <div className="jb-row jb-top">
-                    
-                    
                     <div className="jb-left">
                         <h1>Job viewing</h1>
                         <h2>on a map.</h2>
@@ -36,7 +31,6 @@ const Home = () => (
                     </div>
                 </div>
                 
-               
                 <div className="jb-row jb-top jb-next">
                     <section className="jb-main jb-content">
                         <div className="jb-about">
@@ -46,7 +40,6 @@ const Home = () => (
                     </section>
                 </div>
             </Banner>
-            
             <Footer />
         </main>
         
