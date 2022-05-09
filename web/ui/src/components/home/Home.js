@@ -13,7 +13,7 @@ const Home = () => (
         <main>
             <Banner> 
                 <Icon type="google">
-                    The map tile layer and Geocoding from the Google Maps
+                    Map tile layer from the Google Maps
                     <a href="https://cloud.google.com/maps-platform/"> Platform</a>.
                 </Icon>
                 <Icon type="leaf">
