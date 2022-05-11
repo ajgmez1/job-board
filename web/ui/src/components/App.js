@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     BrowserRouter as Router,
     Route,
@@ -14,40 +14,32 @@ import Home from './home/Home';
 import Map from './jobs/Map';
 import Detail from './jobs/Detail';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
+const App = () => {    
+    const [jobs, setJobs] = useState([]);
+    const [bounds, setBounds] = useState(null);
+    const [searching, setSearching] = useState(true);
+    const [error, setError] = useState(null);
     
-        this.state = { 
-            jobs: [], 
-            bounds: null,
-            searching: true, 
-            error: null 
-        };
-    }
-    
-    componentDidMount() {
-        this.search();
-    }
+    useEffect(() => {
+        search();
+    }, []);
 
-    onSearch = (e, searchVal = '') => {
+    const onSearch = (e, searchVal = '') => {
         if (e) e.preventDefault();
         // const navigate  = useNavigate();
-
-        this.setState({
-            searching: true,
-            jobs: [],
-            error: null
-        });
+        
+        setSearching(true);
+        setJobs([]);
+        setError(null);
 
         // if (navigate.location.pathname !== '/') {
         //     navigate.push('/');
         // }
         
-        this.search(searchVal);
-    }
+        search(searchVal);
+    };
 
-    search(v) {
+    const search = (v) => {
         let url = `/api/jobs`;
         if (v) {
             url += `?search=${v}`;
@@ -56,54 +48,41 @@ class App extends Component {
         return fetch(url)
             .then(r => r.json())
             .then((jobs) => {
+                setSearching(false);
                 if (jobs.error) {
                     console.error(jobs.message);
-                    this.setState({
-                        searching: false,
-                        jobs: [],
-                        error: 'An error occurred.'
-                    });
+                    setError('An error occurred.');
+                    setJobs([]);
                 } else {
-                    this.setState({ 
-                        searching: false, 
-                        error: null,
-                        jobs: jobs
-                    });
+                    setError(null);
+                    setJobs(jobs);
                 }
             });
-    }
+    };
 
-    setBounds = (bounds) => {
-        this.setState({
-            bounds: bounds
-        });
-    }
+    return (
+        <Router>
+            <Header onSearch={onSearch} searching={searching} />
+            <Routes>
+                <Route exact path="/" element={ 
+                    <Map searching={searching}
+                        setStateBounds={setBounds} 
+                        bounds={bounds}
+                        jobs={jobs}
+                        error={error} />
+                }/>
+                
+                <Route path="/about" element={<Home/>} />
 
-    render() {
-        return (
-            <Router>
-                <Header onSearch={this.onSearch} searching={this.state.searching} />
-                <Routes>
-                    <Route exact path="/" element={ 
-                        <Map searching={this.state.searching}
-                            setStateBounds={this.setBounds} 
-                            bounds={this.state.bounds}
-                            jobs={this.state.jobs} 
-                            error={this.state.error} />
-                    }/>
-                    
-                    <Route path="/about" element={<Home/>} />
-
-                    <Route path="/job/:jobId" element={
-                        <Detail 
-                            searching={this.state.searching} 
-                            jobs={this.state.jobs}
-                        />
-                    }/>
-                </Routes>
-            </Router>
-        );
-    }
+                <Route path="/job/:jobId" element={
+                    <Detail 
+                        searching={searching} 
+                        jobs={jobs}
+                    />
+                }/>
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;

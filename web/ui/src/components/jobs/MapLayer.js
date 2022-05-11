@@ -1,8 +1,8 @@
-import React from 'react';
+import { useEffect } from 'react';
 import L from 'leaflet';
 
-class MapLayer extends React.Component {
-    componentDidMount() {
+const MapLayer = (props) => {
+    useEffect(() => {
         L.gridLayer.googleMutant({
             styles: [
                 {featureType: 'water', stylers: [{color: '#7f7f7f'}]},
@@ -11,12 +11,10 @@ class MapLayer extends React.Component {
                 {featureType: 'road.highway', elementType: 'geometry', stylers: [{color: '#dddddd'}]}
             ],
             type: 'roadmap'
-        }).addTo(this.props.map);
-    }
+        }).addTo(props.map);
+    }, []);
 
-    render() {
-        return (null);
-    }
+    return (null);
 }
 
 export default MapLayer;

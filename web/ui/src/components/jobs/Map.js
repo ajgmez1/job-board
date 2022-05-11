@@ -139,10 +139,14 @@ class JobsMap extends React.Component {
 
             map.on('moveend', () => {
                 const { x, y } = map.getSize();
+                const bounds = {
+                    map: map.getBounds(),
+                    group: this.group.getBounds()
+                };
                 if (x && y) {
                     this.setState({ // only show markers that are within the current map bounds
                         jobs: this.props.jobs.filter((j) => j.lat && map.getBounds().contains(L.latLng(j.lat, j.lng))),
-                        refresh: map.getBounds().contains(this.group.getBounds()) ? 'hidden' : ''
+                        refresh: bounds.group.lat && map.getBounds().contains(this.group.getBounds()) ? 'hidden' : ''
                     });
                     this.props.setStateBounds(map.getBounds());
                 }
