@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import L from 'leaflet';
 
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -13,86 +13,68 @@ import Control from './Control';
 import MapMarker from './MapMarker';
 import Sidebar from './Sidebar';
 
-class JobsMap extends React.Component {
-    constructor(props) {
-        super(props);
+const JobsMap = (props) => {
+    const [section, setSection] = useState({ hidden: '', icon: 'left' });
+    const [refresh, setRefresh] = useState('hidden');
+    const [map, setMap] = useState(null);
 
-        this.state = { 
-            section: {
-                hidden: '',
-                icon: 'left'   
-            },
-            refresh: 'hidden',
-            map: null,
-            jobs: this.props.jobs
-        };
-        this.group = L.markerClusterGroup();
+    const group = L.markerClusterGroup();
+    if (map) {
+        group.addTo(map);
     }
 
-    asideControl = (cb) => {
-        this.setState(prevState => ({
-            section: prevState.section.hidden ? {
-                hidden: '',
-                icon: 'left'
-            } : {
-                hidden: 'hidden',
-                icon: 'right'
-            }
-        }), () => {
-            if (typeof cb === 'function') cb();
-        });
-    }
+    const asideControl = (cb) => {
+        setSection(section.hidden ? 
+            { hidden: '', icon: 'left' } : 
+            { hidden: 'hidden', icon: 'right' }
+        );
+        if (typeof cb === 'function') cb();
+    };
 
-    resetControl = () => {
-        if (this.state.section.hidden) {
-            this.asideControl(() => {
-                this.centerMap(this.group.getBounds());
+    const resetControl = () => {
+        if (section.hidden) {
+            asideControl(() => {
+                centerMap(group.getBounds());
             });
         } else {
-            this.centerMap(this.group.getBounds());
+            centerMap(group.getBounds());
         }
-    }
+    };
 
-    onSidebarClick = (markerData) => {
-        let markers = this.group.getLayers(),
+    const onSidebarClick = (markerData) => {
+        let markers = group.getLayers(),
             marker = markers.find((m) => m.options.id === markerData.id);
 
         if (marker) {
-            if (this.state.section.hidden) {
-                this.asideControl(() => {
-                    this.state.map.invalidateSize();
-                    this.centerAndOpenPopup(marker);
+            if (section.hidden) {
+                asideControl(() => {
+                    map.invalidateSize();
+                    centerAndOpenPopup(marker);
                 });
             } else {
-                this.centerAndOpenPopup(marker);
+                centerAndOpenPopup(marker);
             }
         }
-    }
+    };
 
-    onMarkerHover = (id) => {
-        this.setState((prevState) => {
-            const jobs = prevState.jobs.map((j) => ({
-                ...j,
-                selected: false
-            }));
+    const onMarkerHover = (id) => {
+        const jobs = props.jobs.map((j) => ({
+            ...j,
+            selected: false
+        }));
 
-            if (id) {
-                jobs.find((j) => j.id === id).selected = true;   
-            }
-                
-            return {
-                jobs: jobs
-            };
+        if (id) {
+            jobs.find((j) => j.id === id).selected = true;   
+        }        
+    };
+
+    const centerAndOpenPopup = (marker) => {
+        centerMap(marker.__parent.getBounds(), () => {
+            recursiveZoomOrSpiderfy(marker);
         });
-    }
+    };
 
-    centerAndOpenPopup(marker) {
-        this.centerMap(marker.__parent.getBounds(), () => {
-            this.recursiveZoomOrSpiderfy(marker);
-        });
-    }
-
-    recursiveZoomOrSpiderfy(marker) {
+    const recursiveZoomOrSpiderfy = (marker) => {
         let parent = marker.__parent,
             group = parent._group;
 
@@ -100,90 +82,84 @@ class JobsMap extends React.Component {
             marker.openPopup();
         } else {
             group.once('animationend', () => {
-                this.recursiveZoomOrSpiderfy(marker);
+                recursiveZoomOrSpiderfy(marker);
             });
             group._zoomOrSpiderfy({layer: parent});
         }
-    }
+    };
 
-    centerMap(bounds, cb) {
+    const centerMap = (bounds, cb) => {
         if (bounds.isValid()) {
-            if (cb) this.state.map.once('moveend', cb);
-            this.state.map.fitBounds(bounds);
+            if (cb) map.once('moveend', cb);
+            map.fitBounds(bounds);
         }
-    }
+    };
     
-    componentDidUpdate(prevProps) {
-        if (prevProps.searching && !this.props.searching) {
-            this.centerMap(this.group.getBounds());
-        }
+    useEffect((prevProps) => {
+        // if (prevProps.searching && !props.searching) {
+        //     centerMap(group.getBounds());
+        // }
 
-        if (this.props.jobs.length === 0) {
-            this.group.clearLayers();
+        if (props.jobs.length === 0) {
+            group.clearLayers();
         }
         
-        this.state.map.invalidateSize();
-    }
+        if (map) {
+            map.invalidateSize();
+        }
+    });
     
-    componentDidMount() {       
+    useEffect(() => {       
         const map = L.map('map', {
             center: [0, 0],
             zoom: 2,
             maxZoom: 14
         });
 
-        this.setState({
-            map: map
-        }, () => {
-            this.group.addTo(this.state.map);
+        map.on('moveend', () => {
+            const { x, y } = map.getSize();
+            const bounds = {
+                map: map.getBounds(),
+                group: group.getBounds()
+            };
 
-            map.on('moveend', () => {
-                const { x, y } = map.getSize();
-                const bounds = {
-                    map: map.getBounds(),
-                    group: this.group.getBounds()
-                };
-                if (x && y) {
-                    this.setState({ // only show markers that are within the current map bounds
-                        jobs: this.props.jobs.filter((j) => j.lat && map.getBounds().contains(L.latLng(j.lat, j.lng))),
-                        refresh: bounds.group.lat && map.getBounds().contains(this.group.getBounds()) ? 'hidden' : ''
-                    });
-                    this.props.setStateBounds(map.getBounds());
-                }
-            });
-
-            if (this.props.bounds) {
-                this.centerMap(this.props.bounds);
+            if (x && y) { 
+                setRefresh(bounds.group.lat && bounds.map.contains(bounds.group) ? 'hidden' : '')
+                props.setStateBounds(bounds.map);
             }
         });
-    }
-    
-    render() {
-        return (
-            <React.Fragment>
-                <main className="jb-main jb-fill jb-row">
-                    <Message searching={this.props.searching} error={this.props.error} />
-                    <div className="jb-controls">
-                        <Control icon={`angle-double-${this.state.section.icon}`} control={this.asideControl} className="jb-hide-control" />
-                        <Control icon="refresh" control={this.resetControl} className={`jb-${this.state.refresh}`} />
+        
+        setMap(map);
+
+        if (props.bounds) {
+            // centerMap(props.bounds);
+        }
+    }, []);
+
+    return (
+        <React.Fragment>
+            <main className="jb-main jb-fill jb-row">
+                <Message searching={props.searching} error={props.error} />
+                <div className="jb-controls">
+                    <Control icon={`angle-double-${section.icon}`} control={asideControl} className="jb-hide-control" />
+                    <Control icon="refresh" control={resetControl} className={`jb-${refresh}`} />
+                </div>
+                <section className={`jb-fill jb-column jb-${section.hidden}`}>
+                    <div className="jb-fill" id="map">
                     </div>
-                    <section className={`jb-fill jb-column jb-${this.state.section.hidden}`}>
-                        <div className="jb-fill" id="map">
-                        </div>
-                        {this.state.map && 
-                            <React.Fragment>
-                                <MapLayer map={this.state.map} />
-                                {this.props.jobs.map((m) => 
-                                    <MapMarker {...m} group={this.group} key={m.id} onHover={this.onMarkerHover} /> 
-                                )}
-                            </React.Fragment>
-                        }
-                    </section>
-                    <Sidebar jobs={this.state.jobs} onClick={this.onSidebarClick} />
-                </main>
-            </React.Fragment>
-        );
-    }
+                    {map && 
+                        <React.Fragment>
+                            <MapLayer map={map} />
+                            {props.jobs.map((m) => 
+                                <MapMarker {...m} group={group} key={m.id} onHover={onMarkerHover} /> 
+                            )}
+                        </React.Fragment>
+                    }
+                </section>
+                <Sidebar jobs={props.jobs.filter((j) => j.lat && map && map.getBounds().contains(L.latLng(j.lat, j.lng)))} onClick={onSidebarClick} />
+            </main>
+        </React.Fragment>
+    );
 } 
 
 export default JobsMap;
