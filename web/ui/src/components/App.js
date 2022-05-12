@@ -69,6 +69,7 @@ const App = () => {
                         setStateBounds={setBounds} 
                         bounds={bounds}
                         jobs={jobs}
+                        setJobs={setJobs}
                         error={error} />
                 }/>
                 

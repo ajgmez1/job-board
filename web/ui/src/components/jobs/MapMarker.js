@@ -3,16 +3,27 @@ import { Link } from 'react-router-dom';
 import L from 'leaflet';
 
 const MapMarker = (props) => {
-    const icon = L.divIcon({ 
-            className: 'jb-map-icon',
-            html: '<i class="fa fa-map-marker fa-3x"></i>',
-            iconSize: [20, 36],
-            iconAnchor: [10, 34],
-            popupAnchor: [0, -25],
-        });
-
     const popup = React.createRef();
-    
+    const icon = L.divIcon({ 
+        className: 'jb-map-icon',
+        html: '<i class="fa fa-map-marker fa-3x"></i>',
+        iconSize: [20, 36],
+        iconAnchor: [10, 34],
+        popupAnchor: [0, -25],
+    });
+
+    const onHover = (id) => {
+        const jobs = props.jobs.map((j) => ({
+            ...j,
+            selected: false
+        }));
+
+        if (id) {
+            jobs.find((j) => j.id === id).selected = true;   
+        }
+        
+        props.setJobs(jobs);
+    };
 
     useEffect(() => {
         let { lat, 
@@ -26,14 +37,14 @@ const MapMarker = (props) => {
                 icon: icon
             }).bindPopup(popup.current);
 
-            marker.on('mouseover', () => props.onHover(id));
+            marker.on('mouseover', () => onHover(id));
             marker.on('mouseout', () => {
                 if (!marker.isPopupOpen()) {
-                    props.onHover();
+                    onHover();
                 }
             });
-            marker.on('popupopen', () => props.onHover(id));
-            marker.on('popupclose', () => props.onHover());
+            marker.on('popupopen', () => onHover(id));
+            marker.on('popupclose', () => onHover());
 
             group.addLayer(marker);
         }
