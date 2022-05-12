@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import L from 'leaflet';
 
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -13,11 +13,20 @@ import Control from './Control';
 import MapMarker from './MapMarker';
 import Sidebar from './Sidebar';
 
+const usePrevious = (value) => {
+    const ref = useRef();
+    useEffect(() => {
+        ref.current = value;
+    });
+    return ref.current;
+};
+
 const JobsMap = (props) => {
     const [section, setSection] = useState({ hidden: '', icon: 'left' });
     const [refresh, setRefresh] = useState('hidden');
     const [map, setMap] = useState(null);
     const [group, setGroup] = useState(L.markerClusterGroup());
+    const prevSearching = usePrevious(props.searching);
 
     const asideControl = (cb) => {
         setSection(section.hidden ? 
@@ -74,10 +83,10 @@ const JobsMap = (props) => {
         }
     }, []);
 
-    useEffect((prevProps) => {
-        // if (prevProps.searching && !props.searching) {
-        //     centerMap(group.getBounds());
-        // }
+    useEffect(() => {
+        if (prevSearching && !props.searching) {
+            centerMap(group.getBounds());
+        }
 
         if (props.jobs.length === 0 && group) {
             group.clearLayers();

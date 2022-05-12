@@ -12,15 +12,11 @@ const MapMarker = (props) => {
         popupAnchor: [0, -25],
     });
 
-    const onHover = (id) => {
+    const onHover = (id = '') => {
         const jobs = props.jobs.map((j) => ({
             ...j,
-            selected: false
+            selected: j.id === id
         }));
-
-        if (id) {
-            jobs.find((j) => j.id === id).selected = true;   
-        }
         
         props.setJobs(jobs);
     };
