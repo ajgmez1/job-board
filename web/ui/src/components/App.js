@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import {
     BrowserRouter as Router,
     Route,
-    Routes,
-    useNavigate
+    Routes
 } from 'react-router-dom';
 
 import 'font-awesome/css/font-awesome.min.css';
@@ -19,31 +18,20 @@ const App = () => {
     const [bounds, setBounds] = useState(null);
     const [searching, setSearching] = useState(true);
     const [error, setError] = useState(null);
-    
+
     useEffect(() => {
         search();
     }, []);
-
-    const onSearch = (e, searchVal = '') => {
-        if (e) e.preventDefault();
-        // const navigate  = useNavigate();
-        
-        setSearching(true);
-        setJobs([]);
-        setError(null);
-
-        // if (navigate.location.pathname !== '/') {
-        //     navigate.push('/');
-        // }
-        
-        search(searchVal);
-    };
 
     const search = (v) => {
         let url = `/api/jobs`;
         if (v) {
             url += `?search=${v}`;
         }
+
+        setSearching(true);
+        setJobs([]);
+        setError(null);
 
         return fetch(url)
             .then(r => r.json())
@@ -62,11 +50,11 @@ const App = () => {
 
     return (
         <Router>
-            <Header onSearch={onSearch} searching={searching} />
+            <Header search={search} searching={searching} />
             <Routes>
                 <Route exact path="/" element={ 
                     <Map searching={searching}
-                        setStateBounds={setBounds} 
+                        setBounds={setBounds} 
                         bounds={bounds}
                         jobs={jobs}
                         setJobs={setJobs}

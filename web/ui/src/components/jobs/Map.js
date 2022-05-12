@@ -71,7 +71,7 @@ const JobsMap = (props) => {
 
             if (x && y) {
                 setRefresh(bounds.group.lat && bounds.map.contains(bounds.group) ? 'hidden' : '')
-                props.setStateBounds(bounds.map);
+                props.setBounds(bounds.map);
             }
         });
         

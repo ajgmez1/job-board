@@ -1,15 +1,26 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = (props) => {
     const [nav, setNav] = useState('');
     const [value, setValue] = useState('');
+    const navigate = useNavigate();
 
     const handleClick = () => {
         setNav(nav ? '' : 'jb-nav-visible');
     };
     const handleChange = (e) => {
         setValue(e.target.value);
+    };
+
+    const onSearch = (e, val) => {
+        e.preventDefault();
+        
+        if (location.pathname !== '/') {
+            navigate('/');
+        }
+        
+        props.search(val);
     };
 
     return (
@@ -20,7 +31,7 @@ const Header = (props) => {
                     <h1 className="jb-title">Job Board</h1>
                 </Link>
                 <div className="jb-nav-wrapper">
-                    <form action="." onSubmit={(e) => props.onSearch(e, value)}>
+                    <form action="." onSubmit={(e) => onSearch(e, value)}>
                         <div>
                             <i className="fa fa-search"></i>
                             <input className="jb-search" 
