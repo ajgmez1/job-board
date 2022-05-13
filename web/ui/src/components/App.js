@@ -9,11 +9,16 @@ import 'font-awesome/css/font-awesome.min.css';
 import '../styles/App.css';
 
 import Header from './Header';
-import Home from './home/Home';
+import About from './about/About';
 import Map from './jobs/Map';
 import Detail from './jobs/Detail';
 
-const App = () => {    
+const App = () => {
+    return (
+        <Jobs />
+    );
+};
+const Jobs = () => {    
     const [jobs, setJobs] = useState([]);
     const [bounds, setBounds] = useState(null);
     const [searching, setSearching] = useState(true);
@@ -61,7 +66,7 @@ const App = () => {
                         error={error} />
                 }/>
                 
-                <Route path="/about" element={<Home/>} />
+                <Route path="/about" element={<About />} />
 
                 <Route path="/job/:jobId" element={
                     <Detail 
@@ -72,6 +77,6 @@ const App = () => {
             </Routes>
         </Router>
     );
-}
+};
 
 export default App;

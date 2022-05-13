@@ -4,7 +4,7 @@ import Banner from './Banner';
 import Icon from './Icon';
 import Footer from '../Footer';
 
-const Home = () => (
+const About = () => (
     <React.Fragment>
         <main>
             <Banner> 
@@ -42,8 +42,7 @@ const Home = () => (
             </Banner>
             <Footer />
         </main>
-        
     </React.Fragment>
 );
 
-export default Home;
+export default About;
