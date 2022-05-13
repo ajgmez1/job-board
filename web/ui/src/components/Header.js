@@ -1,9 +1,11 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { JobsContext } from '../context/JobsContext';
 
 const Header = (props) => {
     const [nav, setNav] = useState('');
     const [value, setValue] = useState('');
+    const { searching } = useContext(JobsContext);
     const navigate = useNavigate();
 
     const handleClick = () => {
@@ -38,7 +40,7 @@ const Header = (props) => {
                                     value={value}
                                     placeholder="Search jobs"
                                     onChange={handleChange}
-                                    disabled={props.searching} 
+                                    disabled={searching} 
                                     name="search" />
                         </div>
                     </form>

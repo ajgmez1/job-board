@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useMatch } from "react-router-dom";
+import { JobsContext } from '../../context/JobsContext';
 import Message from './Message';
 
-const JobsDetail = (props) => {
+const JobsDetail = () => {
     const match = useMatch("/job/:jobId");
-    const job = props.jobs.find((j) => j.id === +match.params.jobId); 
+    const { jobs, searching } = useContext(JobsContext);
+    const job = jobs.find((j) => j.id === +match.params.jobId); 
+
     return (
         <main className="jb-fill jb-row">
             {job ? 
@@ -17,8 +20,9 @@ const JobsDetail = (props) => {
                     <br/>
                     <div className="jb-html" dangerouslySetInnerHTML={{__html: job.description}} />
                 </section>
-            : <Message searching={props.searching} error={'Job not found.'} />}
+            : <Message searching={searching} error={'Job not found.'} />}
         </main>
-)};
+    );
+};
 
 export default JobsDetail;

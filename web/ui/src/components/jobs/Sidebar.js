@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { JobsContext } from '../../context/JobsContext';
 
-const Sidebar = ({jobs, map, group, section, centerMap, asideControl}) => {
+const Sidebar = ({map, group, section, centerMap, asideControl}) => {
+    const { jobs } = useContext(JobsContext);
     const j = jobs.filter((j) => map && map.getBounds().contains(L.latLng(j.lat, j.lng)));
 
     const onClick = (markerData) => {

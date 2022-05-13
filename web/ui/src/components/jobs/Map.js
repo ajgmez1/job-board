@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import L from 'leaflet';
 
 import 'leaflet.markercluster/dist/MarkerCluster.css';
@@ -13,20 +13,16 @@ import Control from './Control';
 import MapMarker from './MapMarker';
 import Sidebar from './Sidebar';
 
-const usePrevious = (value) => {
-    const ref = useRef();
-    useEffect(() => {
-        ref.current = value;
-    });
-    return ref.current;
-};
+import { usePrevious } from '../../hooks/usePrevious';
+import { JobsContext } from '../../context/JobsContext';
 
 const JobsMap = (props) => {
     const [section, setSection] = useState({ hidden: '', icon: 'left' });
     const [refresh, setRefresh] = useState('hidden');
     const [map, setMap] = useState(null);
     const [group, setGroup] = useState(L.markerClusterGroup());
-    const prevSearching = usePrevious(props.searching);
+    const { jobs, setJobs, searching, error } = useContext(JobsContext);
+    const prevSearching = usePrevious(searching);
 
     const asideControl = (cb) => {
         setSection(section.hidden ? 
@@ -84,11 +80,11 @@ const JobsMap = (props) => {
     }, []);
 
     useEffect(() => {
-        if (prevSearching && !props.searching) {
+        if (prevSearching && !searching) {
             centerMap(group.getBounds());
         }
 
-        if (props.jobs.length === 0 && group) {
+        if (jobs.length === 0 && group) {
             group.clearLayers();
         }
         
@@ -100,7 +96,7 @@ const JobsMap = (props) => {
     return (
         <React.Fragment>
             <main className="jb-main jb-fill jb-row">
-                <Message searching={props.searching} error={props.error} />
+                <Message />
                 <div className="jb-controls">
                     <Control icon={`angle-double-${section.icon}`} control={asideControl} className="jb-hide-control" />
                     <Control icon="refresh" control={resetControl} className={`jb-${refresh}`} />
@@ -111,13 +107,13 @@ const JobsMap = (props) => {
                     {map && 
                         <React.Fragment>
                             <MapLayer map={map} />
-                            {props.jobs.map((m) => 
-                                <MapMarker {...m} group={group} key={m.id} jobs={props.jobs} setJobs={props.setJobs} /> 
+                            {jobs.map((m) => 
+                                <MapMarker {...m} group={group} key={m.id} /> 
                             )}
                         </React.Fragment>
                     }
                 </section>
-                <Sidebar jobs={props.jobs} map={map} group={group} section={section}
+                <Sidebar map={map} group={group} section={section}
                     centerMap={centerMap}
                     asideControl={asideControl}
                  />

@@ -1,8 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import L from 'leaflet';
+import { JobsContext } from '../../context/JobsContext';
 
 const MapMarker = (props) => {
+    const { jobs, setJobs } = useContext(JobsContext);
     const popup = React.createRef();
     const icon = L.divIcon({ 
         className: 'jb-map-icon',
@@ -13,12 +15,10 @@ const MapMarker = (props) => {
     });
 
     const onHover = (id = '') => {
-        const jobs = props.jobs.map((j) => ({
+        setJobs(jobs.map((j) => ({
             ...j,
             selected: j.id === id
-        }));
-        
-        props.setJobs(jobs);
+        })));
     };
 
     useEffect(() => {
