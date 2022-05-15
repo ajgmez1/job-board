@@ -33,14 +33,13 @@ const MapMarker = (props) => {
                 icon: icon
             }).bindPopup(popup.current);
 
+            L.DomEvent.addListener(popup.current, 'mouseover', () => onHover(id));
             marker.on('mouseover', () => onHover(id));
             marker.on('mouseout', () => {
                 if (!marker.isPopupOpen()) {
                     onHover();
                 }
             });
-            marker.on('popupopen', () => onHover(id));
-            marker.on('popupclose', () => onHover());
 
             group.addLayer(marker);
         }

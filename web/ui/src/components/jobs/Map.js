@@ -21,7 +21,7 @@ const JobsMap = (props) => {
     const [refresh, setRefresh] = useState('hidden');
     const [map, setMap] = useState(null);
     const [group, setGroup] = useState(L.markerClusterGroup());
-    const { jobs, setJobs, searching, error } = useContext(JobsContext);
+    const { jobs, searching } = useContext(JobsContext);
     const prevSearching = usePrevious(searching);
 
     const asideControl = (cb) => {
@@ -42,10 +42,10 @@ const JobsMap = (props) => {
         }
     };
 
-    const centerMap = (bounds, cb) => {
-        if (bounds.isValid() && map) {
-            if (cb) map.once('moveend', cb);
-            map.fitBounds(bounds);
+    const centerMap = (bounds, cb, m = map) => {
+        if (bounds.isValid() && m) {
+            if (cb) m.once('moveend', cb);
+            m.fitBounds(bounds);
         }
     };
     
@@ -75,7 +75,7 @@ const JobsMap = (props) => {
         setMap(map);
 
         if (props.bounds) {
-            centerMap(props.bounds);
+            centerMap(props.bounds, '', map);
         }
     }, []);
 
