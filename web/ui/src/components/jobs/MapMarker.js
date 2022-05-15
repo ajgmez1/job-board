@@ -40,6 +40,7 @@ const MapMarker = (props) => {
                     onHover();
                 }
             });
+            marker.on('popupopen', () => setSelected({id}));
             marker.on('popupclose', () => setSelected({}));
 
             group.addLayer(marker);
@@ -49,8 +50,7 @@ const MapMarker = (props) => {
     return (
         <div className='jb-popup'>
             <div ref={popup}>
-                <Link to={`/job/${props.id}`} 
-                    onClick={() => setSelected({id:props.id})}>{props.title}</Link>
+                <Link to={`/job/${props.id}`}>{props.title}</Link>
                 <p> {props.company} - {props.location} </p>
             </div>
         </div>
