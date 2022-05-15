@@ -4,7 +4,7 @@ import L from 'leaflet';
 import { JobsContext } from '../../context/JobsContext';
 
 const MapMarker = (props) => {
-    const { jobs, setJobs } = useContext(JobsContext);
+    const { jobs, setJobs, setSelected } = useContext(JobsContext);
     const popup = React.createRef();
     const icon = L.divIcon({ 
         className: 'jb-map-icon',
@@ -19,7 +19,7 @@ const MapMarker = (props) => {
             ...j,
             selected: j.id === id
         })));
-    };
+    }; 
 
     useEffect(() => {
         let { lat, 
@@ -40,6 +40,7 @@ const MapMarker = (props) => {
                     onHover();
                 }
             });
+            marker.on('popupclose', () => setSelected({}));
 
             group.addLayer(marker);
         }
@@ -48,7 +49,8 @@ const MapMarker = (props) => {
     return (
         <div className='jb-popup'>
             <div ref={popup}>
-                <Link to={`/job/${props.id}`}>{props.title}</Link>
+                <Link to={`/job/${props.id}`} 
+                    onClick={() => setSelected({id:props.id})}>{props.title}</Link>
                 <p> {props.company} - {props.location} </p>
             </div>
         </div>

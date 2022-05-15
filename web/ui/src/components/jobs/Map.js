@@ -113,10 +113,12 @@ const JobsMap = (props) => {
                         </React.Fragment>
                     }
                 </section>
-                <Sidebar map={map} group={group} section={section}
-                    centerMap={centerMap}
-                    asideControl={asideControl}
-                 />
+                {map && 
+                    <Sidebar map={map} group={group} section={section}
+                        centerMap={centerMap}
+                        asideControl={asideControl}
+                    />
+                }
             </main>
         </React.Fragment>
     );

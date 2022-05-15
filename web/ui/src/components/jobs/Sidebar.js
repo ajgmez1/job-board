@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { JobsContext } from '../../context/JobsContext';
 
 const Sidebar = ({map, group, section, centerMap, asideControl}) => {
-    const { jobs } = useContext(JobsContext);
+    const { jobs, selected } = useContext(JobsContext);
     const j = jobs.filter((j) => map && map.getBounds().contains(L.latLng(j.lat, j.lng)));
 
     const onClick = (markerData) => {
@@ -36,6 +36,10 @@ const Sidebar = ({map, group, section, centerMap, asideControl}) => {
             group._zoomOrSpiderfy({layer: parent});
         }
     };
+    
+    useEffect(() => {
+        onClick(selected);
+    }, []);
 
     return (
         <aside>

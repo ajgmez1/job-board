@@ -8,6 +8,8 @@ function JobsProvider({ children }) {
   const { 
     jobs,
     setJobs,
+    selected, 
+    setSelected,
     searching,
     setSearching,
     error,
@@ -18,6 +20,8 @@ function JobsProvider({ children }) {
     <JobsContext.Provider value={{
       jobs,
       setJobs,
+      selected, 
+      setSelected,
       searching,
       setSearching,
       error,
