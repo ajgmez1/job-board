@@ -267,6 +267,9 @@ main aside table {
   border-collapse: collapse;
   text-align: left;
 }
+main aside table tr {
+  cursor: pointer;
+}
 main aside table th, main aside table td {
   padding: 5px;
   border-top: 1px solid gray;
