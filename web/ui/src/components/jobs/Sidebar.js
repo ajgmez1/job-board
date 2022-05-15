@@ -10,21 +10,17 @@ const Sidebar = ({map, group, section, centerMap, asideControl}) => {
             marker = markers.find((m) => m.options.id === markerData.id);
 
         if (marker) {
-            if (section.hidden) {
-                asideControl(() => {
-                    map.invalidateSize();
-                    centerAndOpenPopup(marker);
-                });
-            } else {
-                centerAndOpenPopup(marker);
-            }
+            centerMap(marker.__parent.getBounds(), () => {
+                if (section.hidden) {
+                    asideControl(() => {
+                        map.invalidateSize();
+                        recursiveZoomOrSpiderfy(marker);
+                    });
+                } else {
+                    recursiveZoomOrSpiderfy(marker);
+                }
+            });
         }
-    };
-
-    const centerAndOpenPopup = (marker) => {
-        centerMap(marker.__parent.getBounds(), () => {
-            recursiveZoomOrSpiderfy(marker);
-        });
     };
 
     const recursiveZoomOrSpiderfy = (marker) => {
